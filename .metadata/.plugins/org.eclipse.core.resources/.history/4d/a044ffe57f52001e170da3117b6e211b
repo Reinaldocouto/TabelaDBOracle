@@ -1,0 +1,42 @@
+package br.com.fiap.app;
+
+import br.com.fiap.dao.MensagemDAO;
+import br.com.fiap.model.Mensagem;
+
+import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
+
+public class MensagemApp {
+
+    public static void main(String[] args) throws SQLException {
+        MensagemDAO dao = new MensagemDAO();
+        
+        // Solicita as informações da mensagem ao usuário
+        System.out.println("Informe o assunto da mensagem:");
+        String assunto = System.console().readLine();
+
+        System.out.println("Informe o destinatário da mensagem:");
+        String destinatario = System.console().readLine();
+
+        System.out.println("Informe o remetente da mensagem:");
+        String remetente = System.console().readLine();
+
+        System.out.println("Informe o conteúdo da mensagem:");
+        String conteudo = System.console().readLine();
+
+        // Cria uma nova mensagem com as informações fornecidas pelo usuário
+        Mensagem mensagem = new Mensagem();
+        mensagem.setAssunto(assunto);
+        mensagem.setDestinatario(destinatario);
+        mensagem.setRemetente(remetente);
+        mensagem.setConteudo(conteudo);
+        mensagem.setData(LocalDate.now());
+        mensagem.setPrioridade(1);
+
+        // Inclui a mensagem no banco de dados
+        dao.inclui(mensagem);
+
+        System.out.println("Mensagem incluída com sucesso!");
+    }
+}

@@ -1,0 +1,85 @@
+package br.com.fiap.dao;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import br.com.fiap.model.Mensagem;
+
+public class MensagemDAO {
+
+    private Connection con;
+
+    public MensagemDAO() throws SQLException {
+        this.con = getConnection();
+    }
+
+    public void inclui(Mensagem m) throws SQLException {
+        String sql = "INSERT INTO tbl_mensagem (assunto, destinatario, remetente, data, conteudo, prioridade) VALUES (?, ?, ?, ?, ?, ?)";
+        PreparedStatement stmt = con.prepareStatement(sql);
+
+        stmt.setString(1, m.getAssunto());
+        stmt.setString(2, m.getDestinatario());
+        stmt.setString(3, m.getRemetente());
+        stmt.setDate(4, Date.valueOf(m.getData()));
+        stmt.setString(5, m.getConteudo());
+        stmt.setInt(6, m.getPrioridade());
+
+        stmt.execute();
+    }
+
+    public void altera(Mensagem m) throws SQLException {
+        String sql = "UPDATE tbl_mensagem SET assunto = ?, destinatario = ?, remetente = ?, data = ?, conteudo = ?, prioridade = ? WHERE id = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+
+        stmt.setString(1, m.getAssunto());
+        stmt.setString(2, m.getDestinatario());
+        stmt.setString(3, m.getRemetente());
+        stmt.setDate(4, Date.valueOf(m.getData()));
+        stmt.setString(5, m.getConteudo());
+        stmt.setInt(6, m.getPrioridade());
+        stmt.setLong(7, m.getId());
+
+        stmt.executeUpdate();
+    }
+
+    public Mensagem recupera(long id) throws SQLException {
+        String sql = "SELECT * FROM tbl_mensagem WHERE id = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setLong(1, id);
+
+        ResultSet rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            Mensagem m = new Mensagem();
+            m.setId(rs.getLong("id"));
+            m.setAssunto(rs.getString("assunto"));
+            m.setDestinatario(rs.getString("destinatario"));
+            m.setRemetente(rs.getString("remetente"));
+            m.setData(rs.getDate("data").toLocalDate());
+            m.setConteudo(rs.getString("conteudo"));
+            m.setPrioridade(rs.getInt("prioridade"));
+
+            return m;
+        }
+
+        return null;
+    }
+
+
+    private Connection getConnection() throws SQLException {
+        String url = "ORACLE.FIAP.COM.BR";
+        String user = "RM94330";
+        String password = "fiap";
+
+        return DriverManager.getConnection(url, user, password);
+    }
+
+    public void close() throws SQLException {
+        con.close();
+    }
+
+}

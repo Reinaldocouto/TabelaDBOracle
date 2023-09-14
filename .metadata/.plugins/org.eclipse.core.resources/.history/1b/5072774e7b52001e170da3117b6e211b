@@ -1,0 +1,29 @@
+package br.com.fiap.model;
+import java.sql.*;
+public class testjdbc {
+	public static void main(String[] args) throws SQLException {
+	    // Conecta ao banco de dados
+	    Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@oracle.fiap.com.br:1521:orcl", "rm94330", "fiap");
+
+	    // Verifica se a conexão é válida
+	    if (connection != null && connection.isValid(0)) {
+	        System.out.println("Conexão válida!");
+
+	        // Executa uma consulta no banco de dados
+	        Statement statement = connection.createStatement();
+	        ResultSet resultSet = statement.executeQuery("SELECT 1 FROM dual");
+
+	        // Verifica se a consulta foi bem-sucedida
+	        if (resultSet != null && resultSet.next()) {
+	            System.out.println("Consulta bem-sucedida!");
+	        } else {
+	            System.out.println("Erro na consulta!");
+	        }
+
+	        // Fecha a conexão
+	        connection.close();
+	    } else {
+	        System.out.println("Falha na conexão!");
+	    }
+	}
+}

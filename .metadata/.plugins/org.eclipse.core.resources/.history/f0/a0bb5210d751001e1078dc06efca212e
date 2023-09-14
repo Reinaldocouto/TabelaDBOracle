@@ -1,0 +1,22 @@
+package br.com.fiap.model;
+import java.sql.*;
+public class testjdbc {
+
+
+
+    public static void main(String[] args) throws SQLException {
+        // Conecta ao banco de dados
+        Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@oracle.fiap.com.br:1521:orcl", "rm94330", "fiap");
+
+        // Verifica se a conexão foi bem-sucedida
+        if (connection != null) {
+            System.out.println("Conexão bem-sucedida!");
+        } else {
+            System.out.println("Falha na conexão!");
+        }
+
+        // Fecha a conexão
+        connection.close();
+    }
+	
+}

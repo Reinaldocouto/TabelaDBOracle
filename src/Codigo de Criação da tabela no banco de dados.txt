@@ -1,0 +1,10 @@
+CREATE TABLE tbl_mensagem (
+  id NUMBER(10) NOT NULL,
+  assunto VARCHAR2(255) NOT NULL,
+  destinatario VARCHAR2(255) NOT NULL,
+  remetente VARCHAR2(255) NOT NULL,
+  data DATE NOT NULL,
+  conteudo VARCHAR2(255) NOT NULL,
+  prioridade NUMBER(1) NOT NULL,
+  CONSTRAINT pk_mensagem PRIMARY KEY (id)
+);
